@@ -13,8 +13,8 @@ This guide provides instructions on how to containerize a simple Rust Actix web 
 1. **Create a new Rust project:**
 
    ```bash
-   cargo new rust_actix_web_app
-   cd rust_actix_web_app
+   cargo new actix_web_app
+   cd actix_web_app
    ```
 
 2. **Add Actix Web dependency:**
@@ -68,8 +68,8 @@ This guide provides instructions on how to containerize a simple Rust Actix web 
 2. **Create a new Rust project:**
 
    ```Dockerfile
-   RUN USER=root cargo new --bin rust_actix_web_app
-   WORKDIR /rust_actix_web_app
+   RUN USER=root cargo new --bin actix_web_app
+   WORKDIR /actix_web_app
    ```
 
 3. **Copy the Cargo files:**
@@ -100,7 +100,7 @@ This guide provides instructions on how to containerize a simple Rust Actix web 
 7. **Rebuild the application:**
 
    ```Dockerfile
-   RUN rm ./target/release/deps/rust_actix_web_app*
+   RUN rm ./target/release/deps/actix_web_app*
    RUN cargo build --release
    ```
 
@@ -110,7 +110,7 @@ This guide provides instructions on how to containerize a simple Rust Actix web 
    FROM debian:buster-slim
    COPY --from=builder /rust_actix_web_app/target/release/rust_actix_web_app /usr/local/bin/rust_actix_web_app
    EXPOSE 8080
-   CMD ["rust_actix_web_app"]
+   CMD ["actix_web_app"]
    ```
 
 ## Step 3: Build the Docker Image
@@ -118,7 +118,7 @@ This guide provides instructions on how to containerize a simple Rust Actix web 
 Build the Docker image with the following command:
 
 ```bash
-docker build -t rust_actix_web_app .
+docker build -t actix_web_app .
 ```
 
 ## Step 4: Run the Container Locally
@@ -126,8 +126,11 @@ docker build -t rust_actix_web_app .
 Run the container with the following command:
 
 ```bash
-docker run -p 8080:8080 rust_actix_web_app
+docker run -p 8080:8080 actix_web_app
 ```
 
 Visit `http://localhost:8080` in your browser to see the message "Hello, Actix!" served from the container.
 
+![Image Description](./images/Screenshot%202024-02-23%20191341.png)
+![Image Description](./images/Screenshot%202024-02-23%20191033.png)
+![Image Description](./images/Screenshot%202024-02-23%20191736.png)

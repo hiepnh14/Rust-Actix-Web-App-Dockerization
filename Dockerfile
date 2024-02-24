@@ -5,15 +5,18 @@ FROM rust:1.75 as builder
 RUN USER=root cargo new --bin actix_web_app
 WORKDIR /actix_web_app
 
-# Copy everything
+# Copy the Cargo.toml and Cargo.lock files and build dependencies
 COPY . .
+RUN cargo build --release
+RUN rm src/*.rs
 
-# Build the project
+# Copy the source code and build the application
+COPY ./src ./src
+RUN rm ./target/release/deps/actix_web_app*
 RUN cargo build --release
 
-# Expose port 8080
+# Use the same Rust base image for the final image
+FROM rust:1.75
+COPY --from=builder /actix_web_app/target/release/actix_web_app /usr/local/bin/actix_web_app
 EXPOSE 8080
-
-# Define the default command to run
-CMD cargo run
-
+CMD ["actix_web_app"]
